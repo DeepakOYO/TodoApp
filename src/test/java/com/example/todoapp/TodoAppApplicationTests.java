@@ -44,7 +44,7 @@ class TodoAppApplicationTests {
 	void createTaskTest() {
 		try {
 			TTodoTaskService.Client client = getClient();
-			TTodoTaskModel taskModel = new TTodoTaskModel(null, "Science Project", TStatus.IN_PROGRESS, 868);
+			TTodoTaskModel taskModel = new TTodoTaskModel(null, "", TStatus.IN_PROGRESS, 0);
 			TTodoTaskModel tTodoTaskModel = client.createTodoTask(taskModel);
 			System.out.println(tTodoTaskModel);
 		} catch (TException e) {
@@ -56,7 +56,7 @@ class TodoAppApplicationTests {
 	void updateTaskTest() {
 		try {
 			TTodoTaskService.Client client = getClient();
-			TTodoTaskModel taskModel = new TTodoTaskModel(null, "Science Project", TStatus.TODO, 868);
+			TTodoTaskModel taskModel = new TTodoTaskModel(null, "", TStatus.IN_PROGRESS, 0);
 			TTodoTaskModel tTodoTaskModel = client.updateTodoTask(taskModel);
 			System.out.println(tTodoTaskModel);
 		} catch (TException e) {
