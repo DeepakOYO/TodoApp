@@ -26,7 +26,7 @@ public class TodoApiService implements TodoService {
             taskList = userModel.getTaskList();
         }
         taskList.add(todoTaskModel.getDescription());
-        userModel.setTaskList(taskList);
+        userModel = userModel.toBuilder().taskList(taskList).build();
         userRepository.save(userModel);
         todoRepository.save(todoTaskModel);
         return todoTaskModel;
@@ -41,10 +41,8 @@ public class TodoApiService implements TodoService {
     }
 
     public TodoTaskModel updateTaskStatus(TodoTaskModel todoTaskModel) {
-        TodoTaskModel updatedTodoTaskModel = todoRepository.findByDescriptionAndUserId(
-                todoTaskModel.getDescription(), todoTaskModel.getUserId());
-        assert updatedTodoTaskModel != null;
-        updatedTodoTaskModel.setStatus(todoTaskModel.getStatus());
+        TodoTaskModel updatedTodoTaskModel = todoRepository.findByDescriptionAndUserId(todoTaskModel.getDescription(),
+                todoTaskModel.getUserId()).toBuilder().status(todoTaskModel.getStatus()).build();
         todoRepository.save(updatedTodoTaskModel);
         return updatedTodoTaskModel;
     }
@@ -53,7 +51,7 @@ public class TodoApiService implements TodoService {
         UserModel userModel = userRepository.findByUserId(userId);
         List<String> taskList = userModel.getTaskList();
         taskList.remove(description);
-        userModel.setTaskList(taskList);
+        userModel = userModel.toBuilder().taskList(taskList).build();
         userRepository.save(userModel);
         todoRepository.deleteByDescriptionAndUserId(description, userId);
     }
@@ -63,7 +61,7 @@ public class TodoApiService implements TodoService {
         do {
             userId = (long)(Math.random()*1000);
         } while (userRepository.findByUserId(userId) != null);
-        UserModel userModel = new UserModel(userId, new ArrayList<>());
+        UserModel userModel = UserModel.builder().userId(userId).taskList(new ArrayList<>()).build();
         userRepository.save(userModel);
         return userModel;
     }

@@ -33,16 +33,13 @@ public class TodoTaskModelUtil {
     }
 
     public static TodoTaskModel getTodoTaskDbResponse(TTodoTaskModel tTodoTaskModel) {
-        TodoTaskModel todoTaskModel = new TodoTaskModel();
-        todoTaskModel.setDescription(tTodoTaskModel.getDescription());
         switch (tTodoTaskModel.getStatus()) {
-            case TODO: todoTaskModel.setStatus(TodoTaskModel.Status.TODO);
-            break;
-            case IN_PROGRESS: todoTaskModel.setStatus(TodoTaskModel.Status.IN_PROGRESS);
-            break;
-            default: todoTaskModel.setStatus(TodoTaskModel.Status.COMPLETED);
+            case TODO: return TodoTaskModel.builder().description(tTodoTaskModel.getDescription())
+                    .status(TodoTaskModel.Status.TODO).userId(tTodoTaskModel.getUserId()).build();
+            case IN_PROGRESS: return TodoTaskModel.builder().description(tTodoTaskModel.getDescription())
+                    .status(TodoTaskModel.Status.IN_PROGRESS).userId(tTodoTaskModel.getUserId()).build();
+            default: return TodoTaskModel.builder().description(tTodoTaskModel.getDescription())
+                    .status(TodoTaskModel.Status.COMPLETED).userId(tTodoTaskModel.getUserId()).build();
         }
-        todoTaskModel.setUserId(tTodoTaskModel.getUserId());
-        return todoTaskModel;
     }
 }
